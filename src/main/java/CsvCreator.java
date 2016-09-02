@@ -8,6 +8,13 @@ public class CsvCreator {
     private String columnList;
     private StringBuilder resultString;
 
+    // Apply changes that we were talking about earlier.
+
+    // DESIGN:
+    // Extrac some interface from it. Use 'strategy' pattern, 
+    // in future we will want to store the data from webservice not only in CSV file but i.e. in database.
+    // take that into consideration when designing interface and applying startegy pattern.
+
     public CsvCreator() {
         resultString = new StringBuilder();
         columnList = AppData.columnList;
