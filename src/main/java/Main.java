@@ -1,8 +1,5 @@
-import org.json.simple.JSONArray;
-import org.json.simple.parser.JSONParser;
-
-import java.io.FileWriter;
-import java.io.PrintWriter;
+import org.json.simple.parser.ParseException;
+import java.io.IOException;
 
 /**
  * Created by Rafal on 2016-08-06.
@@ -17,28 +14,15 @@ public class Main {
         // 3. Create at least 3 distinc interfaces and classes that implement it (i.e. Validator, Connector, Parser)
         // 4. Use try/catch/finally properly. Read about exception handling in Java. Read about 'try with resources' in Java 7.
 
-        Connector urlReader = new Connector();
-        urlReader.setConnectionURL(args[0]);
-        urlReader.connectUrl();
+        App myApp = new App(args);
 
-        JSONParser jParser = new JSONParser();
-        TextReader urlResponse = new TextReader();
-        String urlJsonTxt = urlResponse.getStringData(urlReader.getConnection());
-
-        Object jsonString = jParser.parse(urlJsonTxt);
-
-        urlReader.disconnectUrl();
-
-        JSONArray jArray = (JSONArray) jsonString;
-
-        CsvCreator csvOutput = new CsvCreator();
-
-        String result = csvOutput.makeResultString(jArray).toString();
-
-        PrintWriter printWriter = new PrintWriter(new FileWriter(AppData.fileName));
-        printWriter.write(result);
-        printWriter.close();
-
-        System.out.println(result);
+        try{
+           myApp.generateCsvFile();
+       } catch (IOException exeption){
+           System.out.println(exeption.toString());
+       }
+        catch (ParseException exeption){
+            System.out.println(exeption.toString());
+        }
     }
 }

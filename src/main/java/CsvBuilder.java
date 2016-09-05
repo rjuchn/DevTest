@@ -4,7 +4,7 @@ import org.json.simple.JSONObject;
 /**
  * Created by Rafal on 2016-09-01.
  */
-public class CsvCreator {
+public class CsvBuilder implements JsonFormatter{
     private String columnList;
     private StringBuilder resultString;
 
@@ -15,13 +15,13 @@ public class CsvCreator {
     // in future we will want to store the data from webservice not only in CSV file but i.e. in database.
     // take that into consideration when designing interface and applying startegy pattern.
 
-    public CsvCreator() {
+    public CsvBuilder() {
         resultString = new StringBuilder();
         columnList = AppData.columnList;
         resultString.append(columnList + "\n");
     }
 
-    public StringBuilder makeResultString(JSONArray jsonArray) {
+    public String jsonToString(JSONArray jsonArray) {
         for (Object jObject : jsonArray) {
             JSONObject jsonObject = (JSONObject) jObject;
 
@@ -35,6 +35,7 @@ public class CsvCreator {
 
             resultString.append(objId.toString() + "," + objName.toString() + "," + objType.toString() + "," + objLatitude.toString() + "," + objLongitude.toString() + "\n");
         }
-        return resultString;
+
+        return resultString.toString();
     }
 }
