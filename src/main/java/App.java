@@ -10,8 +10,17 @@ import java.io.PrintWriter;
  * Created by Rafal on 2016-09-05.
  */
 public class App {
-    String[] inputText;
 
+    public String[] getInputText() {
+        return inputText;
+    }
+
+    String[] inputText;
+    String test;
+
+    public String getTest() {
+        return test;
+    }
 
     public App(String[] inputText) {
         this.inputText = inputText;
@@ -19,7 +28,9 @@ public class App {
 
     public void generateCsvFile() throws IOException, ParseException {
         Validator cityValidator = new InputValidator(inputText);
-
+        this.test = cityValidator.getValidatedString();
+        System.out.println(this.getTest());
+/*
         Connector urlReader = new Connector();
         urlReader.setConnectionURL(cityValidator.getValidatedString());
         urlReader.connectUrl();
@@ -39,7 +50,7 @@ public class App {
 
         PrintWriter printWriter = new PrintWriter(new FileWriter(AppData.fileName));
         printWriter.write(result);
-        printWriter.close();
+        printWriter.close();*/
     }
 }
 
