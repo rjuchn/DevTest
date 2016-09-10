@@ -14,33 +14,25 @@ public class App {
         this.inputText = inputText;
     }
 
-    public void generateCsvFile() throws IOException {
+    public void generateCsvFile() throws IOException, ParseException {
         Validator cityValidator = new InputValidator(inputText);
         cityValidator.getValidatedString();
         System.out.println(cityValidator.getValidatedString());
 
         Connectable urlReader = new UrlConnector(cityValidator.getValidatedString());
-        BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(urlReader.getConnectionStream()));
-        String input;
-        StringBuffer stringBuffer = new StringBuffer();
-        while((input = bufferedReader.readLine()) != null){
-            stringBuffer.append(input);
-        }
-        bufferedReader.close();
+        TextReader textReader = new TextReader();
+        String jsonText = textReader.getStringData(urlReader.getConnectionStream());
 
-        System.out.println(stringBuffer.toString());
+        JSONParser jParser = new JSONParser();
+        JSONArray jArray = (JSONArray) jParser.parse(jsonText);
 
-        /*JSONParser jParser = new JSONParser();
-        TextReader urlResponse = new TextReader();
-
-        JSONArray jArray = (JSONArray) jsonString;
 
         JsonFormatter csvOutput = new CsvBuilder();
         String result = csvOutput.jsonToString(jArray);
 
         PrintWriter printWriter = new PrintWriter(new FileWriter(AppData.fileName));
         printWriter.write(result);
-        printWriter.close();*/
+        printWriter.close();
     }
 }
 
