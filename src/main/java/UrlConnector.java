@@ -1,29 +1,25 @@
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
 import java.net.URL;
+import java.net.URLConnection;
 
 /**
  * Created by Rafal on 2016-09-07.
  */
-public class UrlConnector extends Connector {
-    Connection connection;
-    String connectionAdress;
+public class UrlConnector implements Connectable {
+    private URLConnection url;
+    HttpURLConnection httpURLConnection;
+    String urlSpecifier = null;
 
-
-    public UrlConnector(String connectionAdress) {
-        this.connectionAdress = connectionAdress;
+    public UrlConnector(String urlSpecifier) {
+        this.urlSpecifier = urlSpecifier;
     }
 
-    Connection createConnection(String connectionType) throws IOException{
-        if(connectionType == "URL"){
-            URL url = null;
-            url = new URL(connectionAdress);
-            connection = (Connection) url.openConnection();
-            return connection;
-        }
-
-
-
+    public InputStream getConnectionStream() throws IOException {
+        url = new URL(AppData.baseURL + urlSpecifier).openConnection();
+        httpURLConnection = (HttpURLConnection) url;
+        return httpURLConnection.getInputStream();
     }
+
 }

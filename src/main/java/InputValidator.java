@@ -3,35 +3,18 @@
  */
 public class InputValidator implements Validator {
     private String inputString;
+    private String[] args;
 
-    public InputValidator(String[] input) {
-        if(validateArrayInput(input) && validateProperString(input[0])){
-            this.inputString = input[0];
-        }
+    public InputValidator(String[] args) {
+        this.args = args;
     }
 
-    public Boolean validateArrayInput(String[] inputArray) {
-        if(inputArray.length > 1)
-            return false;
-        else
-            return true;
-    }
-
-    public Boolean validateProperString(String stringToValidate) {
-        if(stringToValidate.matches("\\d+"))
-            return false;
-        else
-            return true;
-    }
-
-    public String getValidatedString(){
-        String result;
-        if(inputString.length() == 0){
-            result = "";
+    public String getValidatedString() {
+        inputString = args[0];
+        if(inputString != null){
+            return inputString.trim();
+        } else{
+            return null;
         }
-        else {
-            result = inputString;
-        }
-        return result;
     }
 }
