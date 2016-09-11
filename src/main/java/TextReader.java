@@ -18,8 +18,6 @@ public class TextReader {
         }
         bufferedReader.close();
 
-        //System.out.println(stringBuffer.toString());
-
         return stringBuffer.toString();
     }
 }

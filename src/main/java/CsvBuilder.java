@@ -1,10 +1,14 @@
+import data.AppData;
+import interfaces.JsonFormatter;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
 
 /**
  * Created by Rafal on 2016-09-01.
  */
-public class CsvBuilder implements JsonFormatter{
+public class CsvBuilder implements JsonFormatter {
     private String columnList;
     private StringBuilder resultString;
 
@@ -21,7 +25,14 @@ public class CsvBuilder implements JsonFormatter{
         resultString.append(columnList + "\n");
     }
 
-    public String jsonToString(JSONArray jsonArray) {
+    public JSONArray parseJasonString(String inputString) throws ParseException {
+        JSONParser jParser = new JSONParser();
+        JSONArray jArray = (JSONArray) jParser.parse(inputString);
+
+        return jArray;
+    }
+
+    public String formatJsonArray(JSONArray jsonArray) {
         for (Object jObject : jsonArray) {
             JSONObject jsonObject = (JSONObject) jObject;
 

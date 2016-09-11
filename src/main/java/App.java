@@ -1,8 +1,11 @@
+import interfaces.Connectable;
+import interfaces.JsonFormatter;
+import interfaces.Saveable;
+import interfaces.Validator;
 import org.json.simple.JSONArray;
-import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
-import java.io.*;
+import java.io.IOException;
 
 /**
  * Created by Rafal on 2016-09-05.
@@ -16,23 +19,24 @@ public class App {
 
     public void generateCsvFile() throws IOException, ParseException {
         Validator cityValidator = new InputValidator(inputText);
-        cityValidator.getValidatedString();
-        System.out.println(cityValidator.getValidatedString());
 
         Connectable urlReader = new UrlConnector(cityValidator.getValidatedString());
+
         TextReader textReader = new TextReader();
         String jsonText = textReader.getStringData(urlReader.getConnectionStream());
 
-        JSONParser jParser = new JSONParser();
-        JSONArray jArray = (JSONArray) jParser.parse(jsonText);
-
 
         JsonFormatter csvOutput = new CsvBuilder();
-        String result = csvOutput.jsonToString(jArray);
+        JSONArray jArray  = csvOutput.parseJasonString(jsonText);
+        String output = csvOutput.formatJsonArray(jArray);
 
-        PrintWriter printWriter = new PrintWriter(new FileWriter(AppData.fileName));
-        printWriter.write(result);
-        printWriter.close();
+        try{
+            Saveable file = new SaveToFile();
+            file.save(output);
+        } catch (IOException e){
+            System.out.println("There were errors during saving to file: " + e.toString());
+        }
+
     }
 }
 

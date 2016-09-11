@@ -1,6 +1,4 @@
-import com.sun.org.apache.xpath.internal.operations.Bool;
-
-import java.util.ArrayList;
+package interfaces;
 
 /**
  * Created by Rafal on 2016-09-05.
