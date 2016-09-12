@@ -17,7 +17,14 @@ public class App {
         Validator validator = new StringLengthValidator();
         validator.addToValidationQueue();
 
-        Connectable urlReader = new UrlConnector(validator.validate(inputText));
+        System.out.println(validator.validate(inputText[0]).trim());
+        Connectable urlReader = null;
+        if(validator.validate(inputText[0]) == ""){
+            urlReader = new UrlConnector(inputText[0].trim());
+        } else {
+            System.out.println("There was an input error. Application terminated. Error: " + validator.validate(inputText[0]));
+            System.exit(0);
+        }
 
         TextReader textReader = new TextReader();
         String jsonText = textReader.getStringData(urlReader.getConnectionStream());

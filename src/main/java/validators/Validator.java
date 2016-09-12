@@ -17,7 +17,7 @@ public abstract class Validator {
         validationQueue.remove(this);
     }
 
-    public String validate(String[] inputArray) {
+    public String validate(String inputArray) {
         String result = "";
         for(Validator validator : validationQueue){
             result = validator.getValidatedString(inputArray);
@@ -25,5 +25,5 @@ public abstract class Validator {
         return result;
     }
 
-    protected abstract String getValidatedString(String[] inputArray);
+    protected abstract String getValidatedString(String inputArray);
 }
