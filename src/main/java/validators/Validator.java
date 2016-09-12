@@ -9,6 +9,13 @@ import java.util.List;
 public abstract class Validator {
     protected static List<Validator> validationQueue = new ArrayList<Validator>();
 
+    public String showValidationList(){
+        String result = null;
+        for(Validator validator : validationQueue){
+            result += validator.getClass().toString();
+        }
+        return result;
+    }
     public void addToValidationQueue(){
         validationQueue.add(this);
     }

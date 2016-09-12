@@ -4,6 +4,7 @@ import interfaces.Saveable;
 import org.json.simple.parser.ParseException;
 import utils.*;
 import validators.StringLengthValidator;
+import validators.StringNotContainsNumbers;
 import validators.Validator;
 
 import java.io.IOException;
@@ -15,9 +16,10 @@ public class App {
 
     public void generateCsvFile(String[] inputText) throws IOException, ParseException {
         Validator validator = new StringLengthValidator();
+        Validator digitValidator = new StringNotContainsNumbers();
         validator.addToValidationQueue();
+        digitValidator.addToValidationQueue();
 
-        System.out.println(validator.validate(inputText[0]).trim());
         Connectable urlReader = null;
         if(validator.validate(inputText[0]) == ""){
             urlReader = new UrlConnector(inputText[0].trim());
@@ -32,12 +34,9 @@ public class App {
         JsonFormatter csvOutput = new CsvBuilder();
         String output = csvOutput.formatJsonArray(csvOutput.parseJasonString(jsonText));
 
-        try{
-            Saveable file = new SaveToFile();
-            file.save(output);
-        } catch (IOException e){
-            System.out.println("There were errors during saving to file: " + e.toString());
-        }
+        Saveable file = new SaveToFile();
+        file.save(output);
+
     }
 }
 
