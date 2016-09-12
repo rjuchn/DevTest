@@ -19,7 +19,6 @@ public class App {
 
         Connectable urlReader = new UrlConnector(validator.validate(inputText));
 
-
         TextReader textReader = new TextReader();
         String jsonText = textReader.getStringData(urlReader.getConnectionStream());
 

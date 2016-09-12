@@ -12,7 +12,6 @@ import org.json.simple.parser.ParseException;
  */
 public class CsvBuilder implements JsonFormatter {
 
-
     // Apply changes that we were talking about earlier.
 
     // DESIGN:
@@ -28,9 +27,8 @@ public class CsvBuilder implements JsonFormatter {
     }
 
     public String formatJsonArray(JSONArray jsonArray) {
-
-        StringBuilder resultString = null;
-        resultString.append(Constants.columnList);
+        StringBuilder resultString = new StringBuilder();
+        resultString.append(Constants.columnList + "\n");
 
         for (Object jObject : jsonArray) {
             JSONObject jsonObject = (JSONObject) jObject;
