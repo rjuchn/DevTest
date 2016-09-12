@@ -1,4 +1,6 @@
-import data.AppData;
+package utils;
+
+import data.Constants;
 import interfaces.JsonFormatter;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -9,8 +11,7 @@ import org.json.simple.parser.ParseException;
  * Created by Rafal on 2016-09-01.
  */
 public class CsvBuilder implements JsonFormatter {
-    private String columnList;
-    private StringBuilder resultString;
+
 
     // Apply changes that we were talking about earlier.
 
@@ -18,12 +19,6 @@ public class CsvBuilder implements JsonFormatter {
     // Extrac some interface from it. Use 'strategy' pattern, 
     // in future we will want to store the data from webservice not only in CSV file but i.e. in database.
     // take that into consideration when designing interface and applying startegy pattern.
-
-    public CsvBuilder() {
-        resultString = new StringBuilder();
-        columnList = AppData.columnList;
-        resultString.append(columnList + "\n");
-    }
 
     public JSONArray parseJasonString(String inputString) throws ParseException {
         JSONParser jParser = new JSONParser();
@@ -33,6 +28,10 @@ public class CsvBuilder implements JsonFormatter {
     }
 
     public String formatJsonArray(JSONArray jsonArray) {
+
+        StringBuilder resultString = null;
+        resultString.append(Constants.columnList);
+
         for (Object jObject : jsonArray) {
             JSONObject jsonObject = (JSONObject) jObject;
 

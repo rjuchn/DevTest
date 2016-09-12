@@ -1,9 +1,10 @@
 import interfaces.Connectable;
 import interfaces.JsonFormatter;
 import interfaces.Saveable;
-import interfaces.Validator;
-import org.json.simple.JSONArray;
 import org.json.simple.parser.ParseException;
+import utils.*;
+import validators.StringLengthValidator;
+import validators.Validator;
 
 import java.io.IOException;
 
@@ -11,24 +12,19 @@ import java.io.IOException;
  * Created by Rafal on 2016-09-05.
  */
 public class App {
-    String[] inputText;
 
-    public App(String[] inputText) {
-        this.inputText = inputText;
-    }
+    public void generateCsvFile(String[] inputText) throws IOException, ParseException {
+        Validator validator = new StringLengthValidator();
+        validator.addToValidationQueue();
 
-    public void generateCsvFile() throws IOException, ParseException {
-        Validator cityValidator = new InputValidator(inputText);
+        Connectable urlReader = new UrlConnector(validator.validate(inputText));
 
-        Connectable urlReader = new UrlConnector(cityValidator.getValidatedString());
 
         TextReader textReader = new TextReader();
         String jsonText = textReader.getStringData(urlReader.getConnectionStream());
 
-
         JsonFormatter csvOutput = new CsvBuilder();
-        JSONArray jArray  = csvOutput.parseJasonString(jsonText);
-        String output = csvOutput.formatJsonArray(jArray);
+        String output = csvOutput.formatJsonArray(csvOutput.parseJasonString(jsonText));
 
         try{
             Saveable file = new SaveToFile();
@@ -36,7 +32,6 @@ public class App {
         } catch (IOException e){
             System.out.println("There were errors during saving to file: " + e.toString());
         }
-
     }
 }
 

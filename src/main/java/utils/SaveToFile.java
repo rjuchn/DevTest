@@ -1,4 +1,6 @@
-import data.AppData;
+package utils;
+
+import data.Constants;
 import interfaces.Saveable;
 
 import java.io.FileWriter;
@@ -11,7 +13,7 @@ import java.io.PrintWriter;
 public class SaveToFile implements Saveable {
 
     public Boolean save(String stringToBeSaved) throws IOException {
-        PrintWriter printWriter = new PrintWriter(new FileWriter(AppData.fileName));
+        PrintWriter printWriter = new PrintWriter(new FileWriter(Constants.fileName));
         printWriter.write(stringToBeSaved);
         printWriter.close();
         return null;

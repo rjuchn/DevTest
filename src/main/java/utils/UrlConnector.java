@@ -1,4 +1,6 @@
-import data.AppData;
+package utils;
+
+import data.Constants;
 import interfaces.Connectable;
 
 import java.io.IOException;
@@ -20,7 +22,7 @@ public class UrlConnector implements Connectable {
     }
 
     public InputStream getConnectionStream() throws IOException {
-        url = new URL(AppData.baseURL + urlSpecifier).openConnection();
+        url = new URL(Constants.baseURL + urlSpecifier).openConnection();
         httpURLConnection = (HttpURLConnection) url;
         return httpURLConnection.getInputStream();
     }
