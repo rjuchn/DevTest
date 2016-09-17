@@ -21,10 +21,17 @@ public class UrlConnector implements Connectable {
         this.urlSpecifier = urlSpecifier;
     }
 
-    public InputStream getConnectionStream() throws IOException {
-        url = new URL(Constants.baseURL + urlSpecifier).openConnection();
-        httpURLConnection = (HttpURLConnection) url;
-        return httpURLConnection.getInputStream();
+    public InputStream getConnectionStream() {
+        try {
+            url = new URL(Constants.baseURL + urlSpecifier).openConnection();
+            httpURLConnection = (HttpURLConnection) url;
+            return httpURLConnection.getInputStream();
+        } catch (IOException e){
+            System.out.println("Error: " + e.toString());
+            System.exit(0);
+        }
+        return null;
     }
-
 }
+
+

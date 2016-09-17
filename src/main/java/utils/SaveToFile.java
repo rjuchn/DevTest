@@ -20,7 +20,8 @@ public class SaveToFile implements Saveable {
         if(f.exists() && !f.isDirectory()) {
             System.out.println("File " + Constants.fileName + " already exists. Do You want to overwrite it ? (Yes/No)");
             Scanner scanner = new Scanner(System.in);
-            if (scanner.nextLine() == "Yes") {
+            String response = scanner.next();
+            if (response.equals("Yes")) {
                 try {
                     PrintWriter printWriter = new PrintWriter(new FileWriter(Constants.fileName));
                     printWriter.write(stringToBeSaved);
