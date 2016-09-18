@@ -31,8 +31,7 @@ public class SaveToFile implements Saveable {
                     System.out.println("There was an error while writing to file IO Exception: " + e.toString());
                 }
             } else {
-                System.out.println("Old file saved. Application terminated");
-                System.exit(0);
+                System.out.println("Old file saved.");
             }
         }
     }

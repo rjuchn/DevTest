@@ -2,37 +2,34 @@ import interfaces.Connectable;
 import interfaces.JsonFormatter;
 import interfaces.Saveable;
 import org.json.simple.parser.ParseException;
-import utils.CsvBuilder;
-import utils.SaveToFile;
-import utils.TextReader;
-import utils.UrlConnector;
+import utils.*;
 import validators.StringContainsForbiddenCharacters;
 import validators.StringLengthValidatorRegister;
 import validators.StringNotContainsNumbers;
 import validators.ValidatorRegister;
 
 import java.io.IOException;
+import java.io.InputStream;
 
 /**
  * Created by Rafal on 2016-09-05.
  */
 public class App {
 
-    public void generateCsvFile(String[] inputText) {
-        String inputString = null;
-        if(inputText.length != 0){
-            inputString = inputText[0].replaceAll("\\s","");
-        }
-        ValidatorRegister.setToValidationQueue(new StringLengthValidatorRegister());
-        ValidatorRegister.setToValidationQueue(new StringContainsForbiddenCharacters());
-        ValidatorRegister.setToValidationQueue(new StringNotContainsNumbers());
+    public void generateCsvFile(String[] inputText) throws IOException {
+        InputFormatter inputFormatter = new InputFormatter();
+        String inputString = inputFormatter.formatInputArray(inputText);
 
-        Connectable urlReader = null;
+        ValidatorRegister validatorRegister = new ValidatorRegister();
+        validatorRegister.setToValidationQueue(new StringLengthValidatorRegister());
+        validatorRegister.setToValidationQueue(new StringContainsForbiddenCharacters());
 
-        if(ValidatorRegister.checkValidations(inputString).length() == 0){
-            urlReader = new UrlConnector(inputString);
+
+        Connectable urlReader = new UrlConnector();
+        if(validatorRegister.checkValidations(inputString).length() == 0){
+            urlReader.connect(inputString);
         } else {
-            System.out.println("There was an input error. Application terminated. Error: " + ValidatorRegister.checkValidations(inputString));
+            System.out.println("There was an input error. Application terminated. Error: " + validatorRegister.checkValidations(inputString));
             System.exit(0);
         }
 
@@ -40,7 +37,7 @@ public class App {
 
         String jsonText = null;
         try {
-            jsonText = textReader.getStringData(urlReader.getConnectionStream());
+            jsonText = textReader.getStringData(urlReader.getInputStream());
         } catch (IOException e) {
             e.printStackTrace();
         }

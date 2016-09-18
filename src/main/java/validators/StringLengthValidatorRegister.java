@@ -7,7 +7,7 @@ import interfaces.Validatable;
  */
 public class StringLengthValidatorRegister implements Validatable {
     public String validate(String input) {
-        if(!input.equals(null)){
+        if(input != null){
             return "";
         } else{
             return "There is no input parameter !";
