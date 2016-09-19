@@ -11,6 +11,10 @@ import java.util.List;
 public class ValidatorRegister {
     private List<Validatable> validationQueue = new ArrayList<Validatable>();
 
+    public void setValidationQueue(List<Validatable> validationQueue) {
+        this.validationQueue = validationQueue;
+    }
+
     public String showValidationList(){
         StringBuffer result = new StringBuffer();
         for(Validatable validator : validationQueue){

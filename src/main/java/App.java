@@ -2,14 +2,13 @@ import interfaces.Connectable;
 import interfaces.JsonFormatter;
 import interfaces.Saveable;
 import org.json.simple.parser.ParseException;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 import utils.*;
-import validators.StringContainsForbiddenCharacters;
-import validators.StringLengthValidatorRegister;
-import validators.StringNotContainsNumbers;
 import validators.ValidatorRegister;
 
 import java.io.IOException;
-import java.io.InputStream;
 
 /**
  * Created by Rafal on 2016-09-05.
@@ -20,10 +19,10 @@ public class App {
         InputFormatter inputFormatter = new InputFormatter();
         String inputString = inputFormatter.formatInputArray(inputText);
 
-        ValidatorRegister validatorRegister = new ValidatorRegister();
-        validatorRegister.setToValidationQueue(new StringLengthValidatorRegister());
-        validatorRegister.setToValidationQueue(new StringContainsForbiddenCharacters());
+        ApplicationContext context = new ClassPathXmlApplicationContext("Beans.xml");
 
+        /*Injecting validators through xml bean configuration*/
+        ValidatorRegister validatorRegister = (ValidatorRegister) context.getBean("validatorRegister");
 
         Connectable urlReader = new UrlConnector();
         if(validatorRegister.checkValidations(inputString).length() == 0){

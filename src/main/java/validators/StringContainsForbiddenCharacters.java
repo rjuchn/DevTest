@@ -1,6 +1,7 @@
 package validators;
 
 import interfaces.Validatable;
+import org.springframework.stereotype.Component;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -8,6 +9,7 @@ import java.util.regex.Pattern;
 /**
  * Created by Rafal on 2016-09-17.
  */
+@Component
 public class StringContainsForbiddenCharacters implements Validatable {
     public String validate(String input) {
         String pattern = "[^A-Za-z]";

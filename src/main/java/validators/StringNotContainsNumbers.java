@@ -1,12 +1,15 @@
 package validators;
 
 import interfaces.Validatable;
+import org.springframework.stereotype.Component;
+
 import java.util.regex.Pattern;
 import java.util.regex.Matcher;
 
 /**
  * Created by Rafal on 2016-09-12.
  */
+@Component
 public class StringNotContainsNumbers implements Validatable{
     public String validate(String input) {
         String pattern = "\\d+";

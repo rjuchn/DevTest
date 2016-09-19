@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-4.3.xsd">
+
+    <bean id="validatorRegister" class="validators.ValidatorRegister">
+        <property name="validationQueue">
+            <list value-type="interfaces.Validatable">
+                <ref bean="stringContainsForbiddenCharacters"/>
+                <ref bean="stringLengthValidatorRegister"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="stringContainsForbiddenCharacters" class="validators.StringContainsForbiddenCharacters"/>
+    <bean id="stringLengthValidatorRegister" class="validators.StringLengthValidatorRegister"/>
+</beans>
