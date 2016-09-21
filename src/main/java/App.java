@@ -1,45 +1,55 @@
-import org.json.simple.JSONArray;
-import org.json.simple.parser.JSONParser;
+import interfaces.Connectable;
+import interfaces.JsonFormatter;
+import interfaces.Saveable;
 import org.json.simple.parser.ParseException;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+import utils.*;
+import validators.ValidatorRegister;
 
-import java.io.FileWriter;
 import java.io.IOException;
-import java.io.PrintWriter;
 
 /**
  * Created by Rafal on 2016-09-05.
  */
 public class App {
-    String[] inputText;
 
+    public void generateCsvFile(String[] inputText) throws IOException {
+        InputFormatter inputFormatter = new InputFormatter();
+        String inputString = inputFormatter.formatInputArray(inputText);
 
-    public App(String[] inputText) {
-        this.inputText = inputText;
-    }
+        ApplicationContext context = new ClassPathXmlApplicationContext("Beans.xml");
 
-    public void generateCsvFile() throws IOException, ParseException {
-        Validator cityValidator = new InputValidator(inputText);
+        /*Injecting validators through xml bean configuration*/
+        ValidatorRegister validatorRegister = (ValidatorRegister) context.getBean("validatorRegister");
 
-        Connector urlReader = new Connector();
-        urlReader.setConnectionURL(cityValidator.getValidatedString());
-        urlReader.connectUrl();
+        Connectable urlReader = new UrlConnector();
+        if(validatorRegister.checkValidations(inputString).length() == 0){
+            urlReader.connect(inputString);
+        } else {
+            System.out.println("There was an input error. Application terminated. Error: " + validatorRegister.checkValidations(inputString));
+            System.exit(0);
+        }
 
-        JSONParser jParser = new JSONParser();
-        TextReader urlResponse = new TextReader();
-        String urlJsonTxt = urlResponse.getStringData(urlReader.getConnection());
+        TextReader textReader = new TextReader();
 
-        Object jsonString = jParser.parse(urlJsonTxt);
-
-        urlReader.disconnectUrl();
-
-        JSONArray jArray = (JSONArray) jsonString;
-
+        String jsonText = null;
+        try {
+            jsonText = textReader.getStringData(urlReader.getInputStream());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         JsonFormatter csvOutput = new CsvBuilder();
-        String result = csvOutput.jsonToString(jArray);
+        String output = null;
+        try {
+            output = csvOutput.formatJsonArray(csvOutput.parseJasonString(jsonText));
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
 
-        PrintWriter printWriter = new PrintWriter(new FileWriter(AppData.fileName));
-        printWriter.write(result);
-        printWriter.close();
+        Saveable file = new SaveToFile();
+        file.save(output);
     }
 }
 
