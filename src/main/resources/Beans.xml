@@ -2,18 +2,36 @@
 
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
        xsi:schemaLocation="http://www.springframework.org/schema/beans
-        http://www.springframework.org/schema/beans/spring-beans-4.3.xsd">
+        http://www.springframework.org/schema/beans/spring-beans-4.3.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context-4.3.xsd">
 
     <bean id="validatorRegister" class="validators.ValidatorRegister">
         <property name="validationQueue">
             <list value-type="interfaces.Validatable">
-                <ref bean="stringContainsForbiddenCharacters"/>
                 <ref bean="stringLengthValidatorRegister"/>
-            </list>
+                <!-- This bean is registered as a component annotation -->
+                <ref bean="stringNotContainsNumbers"/>
+                <ref bean="stringContainsForbiddenCharacters"/>
+             </list>
         </property>
     </bean>
 
     <bean id="stringContainsForbiddenCharacters" class="validators.StringContainsForbiddenCharacters"/>
     <bean id="stringLengthValidatorRegister" class="validators.StringLengthValidatorRegister"/>
+
+    <bean id="messageSource" class="org.springframework.context.support.ResourceBundleMessageSource">
+        <property name="basenames"> <!-- this property name is worth remembering -->
+             <list>
+                 <value>Messages/messages</value>
+             </list>
+        </property>
+    </bean>
+
+    <!-- don't have to register post processor for annotation scan -->
+    <context:annotation-config/>
+    <!-- don't have to register post processor for component scan as a bean -->
+    <context:component-scan base-package="validators"></context:component-scan>
 </beans>

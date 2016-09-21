@@ -2,18 +2,21 @@ import interfaces.Connectable;
 import interfaces.JsonFormatter;
 import interfaces.Saveable;
 import org.json.simple.parser.ParseException;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
+import org.springframework.context.MessageSource;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import utils.*;
 import validators.ValidatorRegister;
 
+import javax.annotation.Resource;
 import java.io.IOException;
 
 /**
  * Created by Rafal on 2016-09-05.
  */
 public class App {
+
+    private MessageSource messageSource;
 
     public void generateCsvFile(String[] inputText) throws IOException {
         InputFormatter inputFormatter = new InputFormatter();
@@ -28,7 +31,8 @@ public class App {
         if(validatorRegister.checkValidations(inputString).length() == 0){
             urlReader.connect(inputString);
         } else {
-            System.out.println("There was an input error. Application terminated. Error: " + validatorRegister.checkValidations(inputString));
+            /* Passing an array of objects to getMessage method so it gets included to displayed message */
+            System.out.println(this.messageSource.getMessage("app.inputError", new Object[] {validatorRegister.checkValidations(inputString)}, "ERROR WITH DISPLAYING ERROR ;]", null));
             System.exit(0);
         }
 
@@ -50,6 +54,12 @@ public class App {
 
         Saveable file = new SaveToFile();
         file.save(output);
+    }
+
+    /* Autowiring with resource (not part of Spring framework but JSR-250 standard)*/
+    @Resource(name="messageSource")
+    public void setMessageSource(MessageSource messageSource) {
+        this.messageSource = messageSource;
     }
 }
 

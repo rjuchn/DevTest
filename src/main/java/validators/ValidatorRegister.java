@@ -1,6 +1,7 @@
 package validators;
 
 import interfaces.Validatable;
+import org.springframework.beans.factory.annotation.Required;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -11,6 +12,8 @@ import java.util.List;
 public class ValidatorRegister {
     private List<Validatable> validationQueue = new ArrayList<Validatable>();
 
+    /* Adding that to make sure that at least one validator bean is registered */
+    @Required
     public void setValidationQueue(List<Validatable> validationQueue) {
         this.validationQueue = validationQueue;
     }
