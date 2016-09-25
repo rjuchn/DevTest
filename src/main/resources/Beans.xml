@@ -33,5 +33,5 @@
     <!-- don't have to register post processor for annotation scan -->
     <context:annotation-config/>
     <!-- don't have to register post processor for component scan as a bean -->
-    <context:component-scan base-package="validators"></context:component-scan>
+    <context:component-scan base-package="validators"/>
 </beans>

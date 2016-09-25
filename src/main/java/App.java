@@ -16,9 +16,14 @@ import java.io.IOException;
  */
 public class App {
 
+    /* Autowiring with resource (not part of Spring framework but JSR-250 standard)*/
+    @Resource(name="messageSource")
     private MessageSource messageSource;
 
     public void generateCsvFile(String[] inputText) throws IOException {
+//        SaveToDatabase saveToDatabase = new SaveToDatabase();
+//        saveToDatabase.save("test");
+
         InputFormatter inputFormatter = new InputFormatter();
         String inputString = inputFormatter.formatInputArray(inputText);
 
@@ -56,8 +61,6 @@ public class App {
         file.save(output);
     }
 
-    /* Autowiring with resource (not part of Spring framework but JSR-250 standard)*/
-    @Resource(name="messageSource")
     public void setMessageSource(MessageSource messageSource) {
         this.messageSource = messageSource;
     }
