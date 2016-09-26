@@ -1,6 +1,6 @@
 package utils;
 
-import interfaces.Saveable;
+import interfaces.Savable;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -9,7 +9,7 @@ import java.sql.SQLException;
 /**
  * Created by Rafal on 2016-09-25.
  */
-public class SaveToDatabase implements Saveable {
+public class SaveToDatabase implements Savable {
 
     private String dbAdress = "jdbc:oracle:thin:@localhost:1521:rafaldb";
     private String user = "app_client";

@@ -1,7 +1,7 @@
 package utils;
 
 import data.Constants;
-import interfaces.Saveable;
+import interfaces.Savable;
 
 import java.io.File;
 import java.io.FileWriter;
@@ -12,7 +12,7 @@ import java.util.Scanner;
 /**
  * Created by Rafal on 2016-09-11.
  */
-public class SaveToFile implements Saveable {
+public class SaveToFile implements Savable {
 
     public void save(String stringToBeSaved) {
 

@@ -7,7 +7,7 @@ import java.net.MalformedURLException;
 /**
  * Created by Rafal on 2016-09-10.
  */
-public interface Connectable {
+public interface Connectible {
     void connect(String url) throws IOException;
     InputStream getInputStream() throws IOException;
 }
