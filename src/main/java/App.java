@@ -39,8 +39,7 @@ public final class App {
 
     // Initializer block : Please read about it...
     {
-        // Inject Äpp to Spring context
-        context.getAutowireCapableBeanFactory().autowireBean( new UrlConnector() );
+        // Inject App to Spring context
         context.getAutowireCapableBeanFactory().autowireBean( App.this );
     }
 
