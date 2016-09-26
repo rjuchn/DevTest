@@ -2,6 +2,7 @@ package utils;
 
 import data.Constants;
 import interfaces.Connectable;
+import org.springframework.stereotype.Controller;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -11,7 +12,9 @@ import java.net.URL;
 /**
  * Created by Rafal on 2016-09-07.
  */
+@Controller(value = "urlConnectorXXX")
 public class UrlConnector implements Connectable {
+
     private HttpURLConnection httpURLConnection;
 
     public void connect(String url) throws IOException {

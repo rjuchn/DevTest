@@ -1,3 +1,6 @@
+import utils.SaveToDatabase;
+import utils.SaveToFile;
+
 /**
  * Created by Rafal on 2016-08-06.
  */
@@ -12,6 +15,8 @@ public class Main {
         // 4. Use try/catch/finally properly. Read about exception handling in Java. Read about 'try with resources' in Java 7.
 
         App myApp = new App();
+
+        myApp.setSaveStrategy(new SaveToDatabase());
         myApp.generateCsvFile(args);
 
     }

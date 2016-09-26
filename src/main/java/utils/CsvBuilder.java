@@ -6,18 +6,20 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
+import org.springframework.stereotype.Controller;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by Rafal on 2016-09-01.
  */
+@Controller
 public class CsvBuilder implements JsonFormatter {
-
-    // Apply changes that we were talking about earlier.
-
-    // DESIGN:
-    // Extrac some interface from it. Use 'strategy' pattern, 
-    // in future we will want to store the data from webservice not only in CSV file but i.e. in database.
-    // take that into consideration when designing interface and applying startegy pattern.
 
     public JSONArray parseJasonString(String inputString) throws ParseException {
         JSONParser jParser = new JSONParser();
@@ -26,24 +28,28 @@ public class CsvBuilder implements JsonFormatter {
         return jArray;
     }
 
-    public String formatJsonArray(JSONArray jsonArray) {
-        StringBuilder resultString = new StringBuilder();
-        resultString.append(Constants.columnList + "\n");
+    public List<LocationPOJO> formatJsonArray(JSONArray jsonArray){
 
-        for (Object jObject : jsonArray) {
-            JSONObject jsonObject = (JSONObject) jObject;
+        List<LocationPOJO> locationPOJOList = new ArrayList<LocationPOJO>();
 
-            Object objId = jsonObject.get("_id");
-            Object objName = jsonObject.get("name");
-            Object objType = jsonObject.get("type");
-            Object geo_position = jsonObject.get("geo_position");
-            JSONObject json_geo_position = (JSONObject) geo_position;
-            Object objLatitude = json_geo_position.get("latitude");
-            Object objLongitude = json_geo_position.get("longitude");
+            for(Object jObject : jsonArray){
+                JSONObject jsonObject = (JSONObject) jObject;
+                LocationPOJO locationPOJO = new LocationPOJO();
 
-            resultString.append(objId.toString() + "," + objName.toString() + "," + objType.toString() + "," + objLatitude.toString() + "," + objLongitude.toString() + "\n");
-        }
+                locationPOJO.setId((Long) jsonObject.get("_id"));
+                locationPOJO.setName((String) jsonObject.get("name"));
+                locationPOJO.setType((String) jsonObject.get("type"));
 
-        return resultString.toString();
+                Object geo_position = jsonObject.get("geo_position");
+                JSONObject json_geo_position = (JSONObject) geo_position;
+
+                locationPOJO.setGeo_latitude((Double) json_geo_position.get("latitude"));
+                locationPOJO.setGeo_longitude((Double) json_geo_position.get("longitude"));
+
+                locationPOJOList.add(locationPOJO);
+            }
+
+        return locationPOJOList;
     }
 }
+
