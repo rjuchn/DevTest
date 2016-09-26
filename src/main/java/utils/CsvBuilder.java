@@ -6,6 +6,7 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 
 import java.io.BufferedReader;
@@ -19,6 +20,7 @@ import java.util.List;
  * Created by Rafal on 2016-09-01.
  */
 @Controller
+@Qualifier(value="CsvBuilder")
 public class CsvBuilder implements JsonFormatter {
 
     public JSONArray parseJasonString(String inputString) throws ParseException {

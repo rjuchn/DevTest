@@ -2,10 +2,7 @@ package utils;
 
 import interfaces.Savable;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 import java.util.List;
 
 /**
@@ -34,23 +31,36 @@ public class SaveToDatabase implements Savable {
 
             connection = DriverManager.getConnection(dbAdress, user, uPass);
 
-            Statement locationInsertStatement = connection.createStatement();
+            PreparedStatement locationInsertStatement;
             for(LocationPOJO location : locationPOJOList){
-                String executableSQL = "insert into locations (geo_id, geo_name, geo_type, geo_longitude, geo_latitude) values (" +
-                        location.getId().intValue() + ", " +
-                        "'" + location.getName().toString() + "', " +
-                        "'" + location.getType().toString() + "', " +
-                        "'" + location.getGeo_latitude() + "', " +
-                        "'" + location.getGeo_longitude() + "')";
+                /* Here using Statement class and executing prepared query */
+//                String executableSQL = "insert into locations (geo_id, geo_name, geo_type, geo_longitude, geo_latitude) values (" +
+//                        location.getId().intValue() + ", " +
+//                        "'" + location.getName().toString() + "', " +
+//                        "'" + location.getType().toString() + "', " +
+//                        "'" + location.getGeo_latitude() + "', " +
+//                        "'" + location.getGeo_longitude() + "')";
 
-                locationInsertStatement.executeUpdate(executableSQL);
+                /* using PreparedStatement class and inject parameters to statement */
+                locationInsertStatement = connection.prepareStatement("insert into locations (geo_id, geo_name, geo_type, geo_longitude, geo_latitude) values (?, ?, ?, ?, ?)");
+
+                locationInsertStatement.setInt(1, location.getId().intValue());
+                locationInsertStatement.setString(2, location.getName().toString());
+                locationInsertStatement.setString(3, location.getType().toString());
+                locationInsertStatement.setString(4, String.valueOf(location.getGeo_latitude()));
+                locationInsertStatement.setString(5, String.valueOf(location.getGeo_longitude()));
+
+                locationInsertStatement.executeQuery();
                // System.out.println(executableSQL);
             }
 
             System.out.println(locationPOJOList.size() + " items inserted successfully.");
 
+        } catch(SQLIntegrityConstraintViolationException e) {
+            System.out.println("There are already records with current id. Application terminated.");
+            e.printStackTrace();
+            return;
         } catch (SQLException e) {
-
             System.out.println("Connection Failed! Check output console");
             e.printStackTrace();
             return;

@@ -1,6 +1,8 @@
 import utils.SaveToDatabase;
 import utils.SaveToFile;
 
+import java.util.Scanner;
+
 /**
  * Created by Rafal on 2016-08-06.
  */
@@ -16,7 +18,22 @@ public class Main {
 
         App myApp = new App();
 
-        myApp.setSaveStrategy(new SaveToDatabase());
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("Choose if You want to save to: \n\t1. File \n\t2. Database\nEnter selection: ");
+        int selection = scanner.nextInt();
+
+        switch(selection) {
+            case 1:
+                myApp.setSaveStrategy(new SaveToFile());
+                break;
+            case 2:
+                myApp.setSaveStrategy(new SaveToDatabase());
+                break;
+            default:
+                myApp.setSaveStrategy(new SaveToFile());
+                System.out.println("Wrong selection, will be saved to file.");
+        }
+
         myApp.generateCsvFile(args);
 
     }
