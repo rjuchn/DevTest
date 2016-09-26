@@ -1,8 +1,7 @@
 package utils;
 
 import data.Constants;
-import interfaces.Connectible;
-import org.springframework.beans.factory.annotation.Qualifier;
+import interfaces.Connectable;
 import org.springframework.stereotype.Controller;
 
 import java.io.IOException;
@@ -14,7 +13,7 @@ import java.net.URL;
  * Created by Rafal on 2016-09-07.
  */
 @Controller(value = "urlConnectorXXX")
-public class UrlConnector implements Connectible {
+public class UrlConnector implements Connectable {
 
     private HttpURLConnection httpURLConnection;
 

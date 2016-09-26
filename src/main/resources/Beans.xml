@@ -20,6 +20,7 @@
         </property>
     </bean>
 
+    <bean id="textReader" class="utils.TextReader"/>
     <bean id="stringContainsForbiddenCharacters" class="validators.StringContainsForbiddenCharacters"/>
     <bean id="stringLengthValidatorRegister" class="validators.StringLengthValidatorRegister"/>
 

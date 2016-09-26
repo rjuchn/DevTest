@@ -1,3 +1,4 @@
+import utils.SaveToDatabase;
 import utils.SaveToFile;
 
 /**
@@ -15,7 +16,7 @@ public class Main {
 
         App myApp = new App();
 
-        myApp.setSaveStrategy(new SaveToFile());
+        myApp.setSaveStrategy(new SaveToDatabase());
         myApp.generateCsvFile(args);
 
     }

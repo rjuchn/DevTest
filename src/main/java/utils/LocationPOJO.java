@@ -4,17 +4,17 @@ package utils;
  * Created by Rafal on 2016-09-25.
  */
 public class LocationPOJO {
-    private int id;
+    private Long id;
     private String name;
     private String type;
-    private int geo_latitude;
-    private int geo_longitude;
+    private double geo_latitude;
+    private double geo_longitude;
 
-    public int getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -34,19 +34,19 @@ public class LocationPOJO {
         this.type = type;
     }
 
-    public int getGeo_latitude() {
+    public double getGeo_latitude() {
         return geo_latitude;
     }
 
-    public void setGeo_latitude(int geo_latitude) {
+    public void setGeo_latitude(double geo_latitude) {
         this.geo_latitude = geo_latitude;
     }
 
-    public int getGeo_longitude() {
+    public double getGeo_longitude() {
         return geo_longitude;
     }
 
-    public void setGeo_longitude(int geo_longitude) {
+    public void setGeo_longitude(double geo_longitude) {
         this.geo_longitude = geo_longitude;
     }
 }

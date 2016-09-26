@@ -1,10 +1,9 @@
-import interfaces.Connectible;
+import interfaces.Connectable;
 import interfaces.JsonFormatter;
 import interfaces.Savable;
 import org.json.simple.parser.ParseException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.beans.factory.annotation.Required;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.MessageSource;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
@@ -15,6 +14,8 @@ import javax.annotation.Resource;
 import javax.inject.Inject;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by Rafal on 2016-09-05.
@@ -28,9 +29,15 @@ public final class App {
     @Inject
     private ValidatorRegister validatorRegister;
 
+    @Inject
+    JsonFormatter csvOutput;
+
     @Autowired
     @Qualifier("urlConnectorXXX")
-    private Connectible urlReader;
+    private Connectable urlReader;
+
+    @Autowired
+    TextReader textReader;
 
     // Spring is been turning on here...
     private final ApplicationContext context = new ClassPathXmlApplicationContext("Beans.xml");
@@ -51,7 +58,7 @@ public final class App {
         this.saveStrategy = saveStrategy;
     }
 
-    public void generateCsvFile(String[] inputText) throws IOException {
+    public void generateCsvFile(String[] inputText) throws IOException, ParseException {
 
         String inputString = InputFormatter.formatInputArray(inputText);
         String validationResults = validatorRegister.checkValidations(inputString);
@@ -65,11 +72,9 @@ public final class App {
             System.exit(0);
         }
 
-        // Make it spring component?
-        TextReader textReader = new TextReader();
-
         // Better exception handling!!!!!
         String jsonText = null;
+
         try {
             jsonText = textReader.getStringData( urlReader.getInputStream() );
         } catch (IOException e) {
@@ -77,16 +82,16 @@ public final class App {
             e.printStackTrace();
         }
 
-        JsonFormatter csvOutput = new CsvBuilder();
-        String output = null;
 
+
+        List<LocationPOJO> locationPOJOs = new ArrayList<LocationPOJO>();
         try {
-            output = csvOutput.formatJsonArray(csvOutput.parseJasonString(jsonText));
+            locationPOJOs = csvOutput.formatJsonArray(csvOutput.parseJasonString(jsonText));
         } catch (ParseException e) {
             e.printStackTrace();
         }
 
-        save(output);
+        save(locationPOJOs);
     }
 
     private void print(String validationResults) {
@@ -95,12 +100,20 @@ public final class App {
                 new Object[] {validationResults}, "ERROR WITH DISPLAYING ERROR ;]", null) );
     }
 
-    private void save(String output) {
-        this.saveStrategy.save(output);
+    private void save(List<LocationPOJO> objectsList) {
+        this.saveStrategy.save(objectsList);
     }
 
     public void setMessageSource(MessageSource messageSource) {
         this.messageSource = messageSource;
+    }
+
+    public JsonFormatter getCsvOutput() {
+        return csvOutput;
+    }
+
+    public void setCsvOutput(JsonFormatter csvOutput) {
+        this.csvOutput = csvOutput;
     }
 }
 
