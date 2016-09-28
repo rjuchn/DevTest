@@ -2,8 +2,7 @@ package interfaces;
 
 import org.json.simple.JSONArray;
 import org.json.simple.parser.ParseException;
-import org.springframework.stereotype.Controller;
-import utils.LocationPOJO;
+import model.LocationPOJO;
 
 import java.util.List;
 

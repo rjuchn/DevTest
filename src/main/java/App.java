@@ -1,6 +1,7 @@
 import interfaces.Connectable;
 import interfaces.JsonFormatter;
 import interfaces.Savable;
+import model.LocationPOJO;
 import org.json.simple.parser.ParseException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -50,14 +51,6 @@ public final class App {
         context.getAutowireCapableBeanFactory().autowireBean( App.this );
     }
 
-    public Savable getSaveStrategy() {
-        return saveStrategy;
-    }
-
-    public void setSaveStrategy(Savable saveStrategy) {
-        this.saveStrategy = saveStrategy;
-    }
-
     public void generateCsvFile(String[] inputText) throws IOException, ParseException {
 
         String inputString = InputFormatter.formatInputArray(inputText);
@@ -68,7 +61,7 @@ public final class App {
         if( validationResults.isEmpty() ) {
             urlReader.connect(inputString);
         } else {
-            print( validationResults );
+            System.out.println(validationResults);
             System.exit(0);
         }
 
@@ -102,6 +95,14 @@ public final class App {
 
     private void save(List<LocationPOJO> objectsList) {
         this.saveStrategy.save(objectsList);
+    }
+
+    public Savable getSaveStrategy() {
+        return saveStrategy;
+    }
+
+    public void setSaveStrategy(Savable saveStrategy) {
+        this.saveStrategy = saveStrategy;
     }
 
     public void setMessageSource(MessageSource messageSource) {

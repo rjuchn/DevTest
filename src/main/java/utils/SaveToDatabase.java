@@ -1,8 +1,13 @@
 package utils;
 
 import interfaces.Savable;
+import model.LocationPOJO;
+import org.springframework.beans.factory.annotation.Autowired;
 
-import java.sql.*;
+import javax.sql.DataSource;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 import java.util.List;
 
 /**
@@ -10,26 +15,15 @@ import java.util.List;
  */
 public class SaveToDatabase implements Savable {
 
-    private String dbAdress = "jdbc:oracle:thin:@localhost:1521:rafaldb";
-    private String user = "app_client";
-    private String uPass = "rafafal";
+    @Autowired
+    private DataSource dataSource;
 
     public void save(List<LocationPOJO> locationPOJOList) {
-
-        try {
-            Class.forName("oracle.jdbc.driver.OracleDriver");
-        } catch (ClassNotFoundException e) {
-            System.out.println("Where is your Oracle JDBC Driver?");
-            e.printStackTrace();
-            return;
-
-        }
 
         Connection connection = null;
 
         try {
-
-            connection = DriverManager.getConnection(dbAdress, user, uPass);
+            connection = dataSource.getConnection();
 
             PreparedStatement locationInsertStatement;
             for(LocationPOJO location : locationPOJOList){
@@ -56,15 +50,19 @@ public class SaveToDatabase implements Savable {
 
             System.out.println(locationPOJOList.size() + " items inserted successfully.");
 
-        } catch(SQLIntegrityConstraintViolationException e) {
-            System.out.println("There are already records with current id. Application terminated.");
-            e.printStackTrace();
-            return;
         } catch (SQLException e) {
             System.out.println("Connection Failed! Check output console");
             e.printStackTrace();
             return;
         }
+    }
+
+    public DataSource getDataSource() {
+        return dataSource;
+    }
+
+    public void setDataSource(DataSource dataSource) {
+        this.dataSource = dataSource;
     }
 }
 

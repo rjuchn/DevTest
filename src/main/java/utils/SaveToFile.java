@@ -2,6 +2,7 @@ package utils;
 
 import data.Constants;
 import interfaces.Savable;
+import model.LocationPOJO;
 
 import java.io.File;
 import java.io.FileWriter;

@@ -1,8 +1,7 @@
 package interfaces;
 
-import utils.LocationPOJO;
+import model.LocationPOJO;
 
-import java.io.IOException;
 import java.util.List;
 
 /**
