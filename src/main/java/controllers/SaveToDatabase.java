@@ -1,7 +1,7 @@
 package controllers;
 
 import interfaces.Savable;
-import model.LocationDAO;
+import model.LocationDAOImpl;
 import model.LocationPOJO;
 
 import java.util.List;
@@ -11,10 +11,10 @@ import java.util.List;
  */
 public class SaveToDatabase implements Savable {
     public void save(List<LocationPOJO> locationPOJOList) {
-        LocationDAO locationDAO = new LocationDAO();
+        LocationDAOImpl locationDAOImpl = new LocationDAOImpl();
 
         for(LocationPOJO location : locationPOJOList){
-            locationDAO.insertLocation(location);
+            locationDAOImpl.insertLocation(location);
         }
         System.out.println(locationPOJOList.size() + " items inserted successfully.");
     }
