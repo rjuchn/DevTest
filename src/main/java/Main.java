@@ -1,5 +1,5 @@
-import utils.SaveToDatabase;
-import utils.SaveToFile;
+import controllers.SaveToDatabase;
+import controllers.SaveToFile;
 
 import java.util.Scanner;
 

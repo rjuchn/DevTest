@@ -32,15 +32,17 @@
         </property>
     </bean>
 
-    <bean id="saveToDatabase" class="utils.SaveToDatabase">
-        <property name="dataSource" ref="dataSource" />
+    <bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+        <property name="location">
+            <value>Properties/properties.properties</value>
+        </property>
     </bean>
 
     <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource" >
-        <property name="dataSourceName" value="jdbc:oracle:thin:@localhost:1521:rafaldb"/>
-        <property name="url" value="jdbc:oracle:thin:@localhost:1521:rafaldb"/>
-        <property name="user" value="app_client"/>
-        <property name="password" value="rafafal"/>
+        <property name="driverClassName" value="${driverClassName}"/>
+        <property name="url" value="${dbUrl}"/>
+        <property name="username" value="${username}"/>
+        <property name="password" value="${password}"/>
     </bean>
 
     <!-- don't have to register post processor for annotation scan -->
@@ -48,4 +50,5 @@
     <!-- don't have to register post processor for component scan as a bean -->
     <context:component-scan base-package="validators"/>
     <context:component-scan base-package="utils"/>
+    <context:component-scan base-package="model"/>
 </beans>

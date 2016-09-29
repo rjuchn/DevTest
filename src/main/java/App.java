@@ -45,7 +45,7 @@ public final class App {
 
     private Savable saveStrategy;
 
-    // Initializer block : Please read about it...
+
     {
         // Inject App to Spring context
         context.getAutowireCapableBeanFactory().autowireBean( App.this );
@@ -74,8 +74,6 @@ public final class App {
             // if exception occurs you continue program with null jsonText!!!
             e.printStackTrace();
         }
-
-
 
         List<LocationPOJO> locationPOJOs = new ArrayList<LocationPOJO>();
         try {
