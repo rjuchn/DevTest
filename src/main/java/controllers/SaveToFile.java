@@ -2,7 +2,8 @@ package controllers;
 
 import data.Constants;
 import interfaces.Savable;
-import model.LocationPOJO;
+import model.LocationPojo;
+import org.springframework.stereotype.Controller;
 
 import java.io.File;
 import java.io.FileWriter;
@@ -14,9 +15,10 @@ import java.util.Scanner;
 /**
  * Created by Rafal on 2016-09-11.
  */
+@Controller
 public class SaveToFile implements Savable {
 
-    public void save(List<LocationPOJO> locationPOJOList) {
+    public void save(List<LocationPojo> locationPojoList) {
 
         File f = new File(Constants.fileName);
         if(f.exists() && !f.isDirectory()) {
@@ -24,26 +26,26 @@ public class SaveToFile implements Savable {
             Scanner scanner = new Scanner(System.in);
             String response = scanner.next();
             if (response.equals("Yes")) {
-                writeToFile(locationPOJOList);
+                writeToFile(locationPojoList);
             } else {
                 System.out.println("Old file saved.");
             }
         } else {
-            writeToFile(locationPOJOList);
+            writeToFile(locationPojoList);
         }
     }
 
-    private void writeToFile(List<LocationPOJO> locationPOJOList) {
+    private void writeToFile(List<LocationPojo> locationPojoList) {
         try {
             PrintWriter printWriter = new PrintWriter(new FileWriter(Constants.fileName));
             printWriter.write(Constants.columnList.toString() + "\n");
-            for(LocationPOJO locationPOJO : locationPOJOList){
+            for(LocationPojo locationPojo : locationPojoList){
                 printWriter.write(
-                        locationPOJO.getId().toString() + "," +
-                                locationPOJO.getName().toString() + "," +
-                                locationPOJO.getType().toString() + "," +
-                                String.valueOf(locationPOJO.getGeo_latitude()) + "," +
-                                String.valueOf(locationPOJO.getGeo_longitude()) + "\n");
+                        locationPojo.getId().toString() + "," +
+                                locationPojo.getName().toString() + "," +
+                                locationPojo.getType().toString() + "," +
+                                String.valueOf(locationPojo.getGeo_latitude()) + "," +
+                                String.valueOf(locationPojo.getGeo_longitude()) + "\n");
             }
             printWriter.close();
             System.out.println("File overwritten.");

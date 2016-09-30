@@ -1,22 +1,25 @@
 package controllers;
 
 import interfaces.Savable;
-import model.LocationDAOImpl;
-import model.LocationPOJO;
+import model.LocationDaoImpl;
+import model.LocationPojo;
+import org.springframework.stereotype.Controller;
 
 import java.util.List;
 
 /**
  * Created by Rafal on 2016-09-25.
  */
+@Controller
 public class SaveToDatabase implements Savable {
-    public void save(List<LocationPOJO> locationPOJOList) {
-        LocationDAOImpl locationDAOImpl = new LocationDAOImpl();
+    private LocationDaoImpl locationDaoImpl = new LocationDaoImpl();
 
-        for(LocationPOJO location : locationPOJOList){
-            locationDAOImpl.insertLocation(location);
+    public void save(List<LocationPojo> locationPojoList) {
+
+        for(LocationPojo location : locationPojoList){
+            locationDaoImpl.insertLocation(location);
         }
-        System.out.println(locationPOJOList.size() + " items inserted successfully.");
+        System.out.println(locationPojoList.size() + " items inserted successfully.");
     }
 }
 

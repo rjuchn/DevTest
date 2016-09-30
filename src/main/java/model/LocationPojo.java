@@ -1,9 +1,12 @@
 package model;
 
+import org.springframework.stereotype.Component;
+
 /**
  * Created by Rafal on 2016-09-25.
  */
-public class LocationPOJO {
+@Component
+public class LocationPojo {
     private Long id;
     private String name;
     private String type;

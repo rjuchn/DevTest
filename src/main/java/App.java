@@ -1,7 +1,7 @@
 import interfaces.Connectable;
 import interfaces.JsonFormatter;
 import interfaces.Savable;
-import model.LocationPOJO;
+import model.LocationPojo;
 import org.json.simple.parser.ParseException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -45,7 +45,6 @@ public final class App {
 
     private Savable saveStrategy;
 
-
     {
         // Inject App to Spring context
         context.getAutowireCapableBeanFactory().autowireBean( App.this );
@@ -75,14 +74,14 @@ public final class App {
             e.printStackTrace();
         }
 
-        List<LocationPOJO> locationPOJOs = new ArrayList<LocationPOJO>();
+        List<LocationPojo> locationPojos = new ArrayList<LocationPojo>();
         try {
-            locationPOJOs = csvOutput.formatJsonArray(csvOutput.parseJasonString(jsonText));
+            locationPojos = csvOutput.formatJsonArray(csvOutput.parseJasonString(jsonText));
         } catch (ParseException e) {
             e.printStackTrace();
         }
 
-        save(locationPOJOs);
+        save(locationPojos);
     }
 
     private void print(String validationResults) {
@@ -91,7 +90,7 @@ public final class App {
                 new Object[] {validationResults}, "ERROR WITH DISPLAYING ERROR ;]", null) );
     }
 
-    private void save(List<LocationPOJO> objectsList) {
+    private void save(List<LocationPojo> objectsList) {
         this.saveStrategy.save(objectsList);
     }
 
