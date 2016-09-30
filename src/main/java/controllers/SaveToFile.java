@@ -3,6 +3,8 @@ package controllers;
 import data.Constants;
 import interfaces.Savable;
 import model.LocationPOJO;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Component;
 
 import java.io.File;
 import java.io.FileWriter;
@@ -14,6 +16,8 @@ import java.util.Scanner;
 /**
  * Created by Rafal on 2016-09-11.
  */
+@Component
+@Qualifier( Constants.STRATEGY_SAVE_TO_FILE )
 public class SaveToFile implements Savable {
 
     public void save(List<LocationPOJO> locationPOJOList) {

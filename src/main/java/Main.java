@@ -1,5 +1,7 @@
 import controllers.SaveToDatabase;
 import controllers.SaveToFile;
+import data.Constants;
+import interfaces.Savable;
 
 import java.util.Scanner;
 
@@ -21,18 +23,20 @@ public class Main {
         Scanner scanner = new Scanner(System.in);
         System.out.println("Choose if You want to save to: \n\t1. File \n\t2. Database\nEnter selection: ");
         int selection = scanner.nextInt();
+        Savable saveStrategy = null;
 
-        switch(selection) {
+        switch( selection ) {
             case 1:
-                myApp.setSaveStrategy(new SaveToFile());
+                saveStrategy = myApp.getBean(SaveToFile.class, Constants.STRATEGY_SAVE_TO_FILE);
                 break;
             case 2:
-                myApp.setSaveStrategy(new SaveToDatabase());
+                saveStrategy = myApp.getBean(SaveToDatabase.class, Constants.STRATEGY_SAVE_TO_DATABASE);
                 break;
             default:
-                myApp.setSaveStrategy(new SaveToFile());
-                System.out.println("Wrong selection, will be saved to file.");
+                saveStrategy = myApp.getBean(SaveToFile.class, Constants.STRATEGY_SAVE_TO_FILE);
+                System.out.println("Wrong selection, will be saved to file...");
         }
+        myApp.setSaveStrategy(saveStrategy);
 
         myApp.generateCsvFile(args);
 

@@ -13,16 +13,24 @@ import java.sql.SQLException;
  * Created by Rafal on 2016-09-29.
  */
 @Component
-public class LocationDAOImpl {
+public class LocationDAOImpl { // extract interface!
+
+    public static final String INSERT = "insert into locations (geo_id, geo_name, geo_type, geo_longitude, geo_latitude) values (?, ?, ?, ?, ?)";
+    public static final String FIND_BY_ID = "SELECT * FROM locations where GEO_ID = ?";
 
     private DataSource dataSource;
 
+    @Autowired
+    public void setDataSource(DataSource dataSource) {
+        this.dataSource = dataSource;
+        this.jdbcTemplate = new JdbcTemplate(dataSource);
+    }
+
     private JdbcTemplate jdbcTemplate;
 
-    public void insertLocation(LocationPOJO location){
-        String sql = "insert into locations (geo_id, geo_name, geo_type, geo_longitude, geo_latitude) values (?, ?, ?, ?, ?)";
+    public void save( LocationPOJO location ) {
 
-        jdbcTemplate.update(sql, new Object[] {
+        getJdbcTemplate().update( INSERT, new Object[] {
                 location.getId().intValue(),
                 location.getName().toString(),
                 location.getType().toString(),
@@ -31,21 +39,17 @@ public class LocationDAOImpl {
     }
 
     public LocationPOJO getLocation(int locationId){
-        String sql = "SELECT * FROM locations where GEO_ID = ?";
-        return jdbcTemplate.queryForObject(sql, new LocationMapper(), locationId);
+        return jdbcTemplate.queryForObject( FIND_BY_ID, new LocationMapper(), locationId);
     }
 
     private DataSource getDataSource() {
         return dataSource;
     }
 
-    // assigning datasource directly to jdbcTemplate in a setter because there is no need to use datasource standalone
-    @Autowired
-    public void setDataSource(DataSource dataSource) {
-        this.jdbcTemplate = new JdbcTemplate(dataSource);
-    }
-
     public JdbcTemplate getJdbcTemplate() {
+        if ( jdbcTemplate == null ) {
+            throw  new IllegalStateException("jdbcTemplate cannot be null");
+        }
         return jdbcTemplate;
     }
 

@@ -45,10 +45,23 @@ public final class App {
 
     private Savable saveStrategy;
 
-
     {
         // Inject App to Spring context
         context.getAutowireCapableBeanFactory().autowireBean( App.this );
+    }
+
+    /**
+     * Returns bean from Spring context..
+     *
+      * @param t        Class of bean
+     *  @param name     Name of the bean
+     *
+     *  @param <T>      Generic param  to compiler type safe cast
+     *
+     *  @return bean from Spring context
+     */
+    public <T> T getBean(Class<T> t, String name) {
+        return (T) context.getBean( name );
     }
 
     public void generateCsvFile(String[] inputText) throws IOException, ParseException {
