@@ -9,9 +9,9 @@
         http://www.springframework.org/schema/context/spring-context-4.3.xsd"
        >
 
-    <bean id="validatorRegister" class="validators.ValidatorRegister">
+    <bean id="validatorRegister" class="com.juchnicki.validators.ValidatorRegister">
         <property name="validationQueue">
-            <list value-type="interfaces.Validatable">
+            <list value-type="com.juchnicki.interfaces.Validatable">
                 <ref bean="stringLengthValidatorRegister"/>
                 <!-- This bean is registered as a component annotation -->
                 <!--<ref bean="stringNotContainsNumbers"/>-->
@@ -20,9 +20,9 @@
         </property>
     </bean>
 
-    <bean id="textReader" class="utils.TextReader"/>
-    <bean id="stringContainsForbiddenCharacters" class="validators.StringContainsForbiddenCharacters"/>
-    <bean id="stringLengthValidatorRegister" class="validators.StringLengthValidatorRegister"/>
+    <bean id="textReader" class="com.juchnicki.utils.TextReader"/>
+    <bean id="stringContainsForbiddenCharacters" class="com.juchnicki.validators.StringContainsForbiddenCharacters"/>
+    <bean id="stringLengthValidatorRegister" class="com.juchnicki.validators.StringLengthValidatorRegister"/>
 
     <bean id="messageSource" class="org.springframework.context.support.ResourceBundleMessageSource">
         <property name="basenames"> <!-- this property name is worth remembering -->
@@ -38,6 +38,16 @@
         </property>
     </bean>
 
+    <bean id="sessionFactory" class="org.springframework.orm.hibernate3.annotation.AnnotationSessionFactoryBean">
+        <property name="dataSource" ref="dataSource" />
+        <property name="packagesToScan" value="com.juchnicki.model"/>
+        <property name="hibernateProperties">
+            <props>
+                <prop key="dialect">org.hibernate.dialect.Oracle12cDialect</prop>
+            </props>
+        </property>
+    </bean>
+
     <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource" >
         <property name="driverClassName" value="${driverClassName}"/>
         <property name="url" value="${dbUrl}"/>
@@ -48,8 +58,8 @@
     <!-- don't have to register post processor for annotation scan -->
     <context:annotation-config/>
     <!-- don't have to register post processor for component scan as a bean -->
-    <context:component-scan base-package="validators"/>
-    <context:component-scan base-package="controllers"/>
-    <context:component-scan base-package="utils"/>
-    <context:component-scan base-package="model"/>
+    <context:component-scan base-package="com.juchnicki.validators"/>
+    <context:component-scan base-package="com.juchnicki.controllers"/>
+    <context:component-scan base-package="com.juchnicki.utils"/>
+    <context:component-scan base-package="com.juchnicki.model"/>
 </beans>
