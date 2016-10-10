@@ -1,9 +1,14 @@
 package com.juchnicki;
 
+import com.juchnicki.controllers.SaveToDatabase;
+import com.juchnicki.data.Constants;
 import com.juchnicki.interfaces.Connectable;
 import com.juchnicki.interfaces.JsonFormatter;
+import com.juchnicki.interfaces.LocationDao;
 import com.juchnicki.interfaces.Savable;
+import com.juchnicki.model.LocationHibernateDaoImpl;
 import com.juchnicki.model.LocationPojo;
+import com.juchnicki.model.Locations;
 import com.juchnicki.utils.InputFormatter;
 import com.juchnicki.utils.TextReader;
 import com.juchnicki.validators.ValidatorRegister;
@@ -97,7 +102,7 @@ public final class App {
             e.printStackTrace();
         }
 
-        List<LocationPojo> locations = new ArrayList<LocationPojo>();
+        List<Locations> locations = new ArrayList<Locations>();
         try {
             locations = csvOutput.formatJsonArray(csvOutput.parseJasonString(jsonText));
         } catch (ParseException e) {
@@ -113,7 +118,7 @@ public final class App {
                 new Object[]{validationResults}, "ERROR WITH DISPLAYING ERROR ;]", null));
     }
 
-    private void save(List<LocationPojo> objectsList) {
+    private void save(List<Locations> objectsList) {
         this.saveStrategy.save(objectsList);
     }
 

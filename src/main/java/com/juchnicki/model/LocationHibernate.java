@@ -1,16 +1,21 @@
 package com.juchnicki.model;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 
 /**
  * Created by Rafal on 2016-10-09.
  */
-@Entity
-public class LocationHibernate {
+@Entity(name = "locations")
+public class LocationHibernate implements Locations {
+    // Id is mandatory for Entity objects, adding column aliases so they match column names in db
     @Id
+    @Column(name = "geo_id")
     private Long id;
+    @Column(name = "geo_name")
     private String name;
+    @Column(name = "geo_type")
     private String type;
     private double geo_latitude;
     private double geo_longitude;

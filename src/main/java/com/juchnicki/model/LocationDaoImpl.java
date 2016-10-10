@@ -2,6 +2,7 @@ package com.juchnicki.model;
 
 import com.juchnicki.interfaces.LocationDao;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Component;
@@ -14,6 +15,7 @@ import java.sql.SQLException;
  * Created by Rafal on 2016-09-29.
  */
 @Component
+@Qualifier("JDBC")
 public class LocationDaoImpl implements LocationDao { // extract interface!
 
     public static final String INSERT = "insert into locations (geo_id, geo_name, geo_type, geo_longitude, geo_latitude) values (?, ?, ?, ?, ?)";
@@ -28,7 +30,7 @@ public class LocationDaoImpl implements LocationDao { // extract interface!
         this.jdbcTemplate = new JdbcTemplate(dataSource);
     }
 
-    public void save(LocationPojo location) {
+    public void save(Locations location) {
 
         getJdbcTemplate().update(INSERT, new Object[]{
                 location.getId().intValue(),

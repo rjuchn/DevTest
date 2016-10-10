@@ -3,7 +3,7 @@ package com.juchnicki.model;
 /**
  * Created by Rafal on 2016-09-25.
  */
-public class LocationPojo {
+public class LocationPojo implements Locations{
     private Long id;
     private String name;
     private String type;

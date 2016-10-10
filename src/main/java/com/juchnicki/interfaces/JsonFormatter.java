@@ -1,6 +1,7 @@
 package com.juchnicki.interfaces;
 
 import com.juchnicki.model.LocationPojo;
+import com.juchnicki.model.Locations;
 import org.json.simple.JSONArray;
 import org.json.simple.parser.ParseException;
 
@@ -12,5 +13,5 @@ import java.util.List;
 public interface JsonFormatter {
     JSONArray parseJasonString(String inputString) throws ParseException;
 
-    List<LocationPojo> formatJsonArray(JSONArray jsonArray);
+    List<Locations> formatJsonArray(JSONArray jsonArray);
 }
