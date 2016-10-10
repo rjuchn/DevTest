@@ -1,2 +1,2 @@
 Manifest-Version: 1.0
-com.juchnicki.Main-Class: com.juchnicki.Main
+Main-Class: com.juchnicki.Main

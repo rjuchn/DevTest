@@ -19,9 +19,9 @@ public class StringLengthValidatorRegister implements Validatable {
     }
 
     public String validate(String input) {
-        if( input != null && !input.isEmpty() ) {
+        if (input != null && !input.isEmpty()) {
             return "";
-        } else{
+        } else {
             return this.messageSource.getMessage("validator.length.error", null, "Message can not be displayed !", null).toString();
         }
     }

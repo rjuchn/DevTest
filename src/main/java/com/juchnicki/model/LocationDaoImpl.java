@@ -30,7 +30,7 @@ public class LocationDaoImpl implements LocationDao { // extract interface!
 
     public void save(LocationPojo location) {
 
-        getJdbcTemplate().update( INSERT, new Object[] {
+        getJdbcTemplate().update(INSERT, new Object[]{
                 location.getId().intValue(),
                 location.getName().toString(),
                 location.getType().toString(),
@@ -38,8 +38,8 @@ public class LocationDaoImpl implements LocationDao { // extract interface!
                 String.valueOf(location.getGeo_longitude())});
     }
 
-    public LocationPojo getLocation(int locationId){
-        return jdbcTemplate.queryForObject( FIND_BY_ID, new LocationMapper(), locationId);
+    public LocationPojo getLocation(int locationId) {
+        return jdbcTemplate.queryForObject(FIND_BY_ID, new LocationMapper(), locationId);
     }
 
     private DataSource getDataSource() {
@@ -47,8 +47,8 @@ public class LocationDaoImpl implements LocationDao { // extract interface!
     }
 
     public JdbcTemplate getJdbcTemplate() {
-        if ( jdbcTemplate == null ) {
-            throw  new IllegalStateException("jdbcTemplate cannot be null");
+        if (jdbcTemplate == null) {
+            throw new IllegalStateException("jdbcTemplate cannot be null");
         }
         return jdbcTemplate;
     }

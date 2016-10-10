@@ -17,7 +17,7 @@ public class TextReader {
         BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
         String input;
         StringBuffer stringBuffer = new StringBuffer();
-        while((input = bufferedReader.readLine()) != null){
+        while ((input = bufferedReader.readLine()) != null) {
             stringBuffer.append(input);
         }
         bufferedReader.close();

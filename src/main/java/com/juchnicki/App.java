@@ -2,22 +2,20 @@ package com.juchnicki;
 
 import com.juchnicki.interfaces.Connectable;
 import com.juchnicki.interfaces.JsonFormatter;
-import com.juchnicki.interfaces.LocationDao;
 import com.juchnicki.interfaces.Savable;
-import com.juchnicki.model.LocationHibernate;
 import com.juchnicki.model.LocationPojo;
+import com.juchnicki.utils.InputFormatter;
+import com.juchnicki.utils.TextReader;
+import com.juchnicki.validators.ValidatorRegister;
 import org.json.simple.parser.ParseException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.MessageSource;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
-import com.juchnicki.utils.*;
-import com.juchnicki.validators.ValidatorRegister;
 
 import javax.annotation.Resource;
 import javax.inject.Inject;
-
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -51,21 +49,28 @@ public final class App {
 
     {
         // Inject com.juchnicki.App to Spring context
-        context.getAutowireCapableBeanFactory().autowireBean( App.this );
+        context.getAutowireCapableBeanFactory().autowireBean(App.this);
+    }
+
+
+    public ValidatorRegister getValidatorRegister() {
+        return validatorRegister;
+    }
+
+    public void setValidatorRegister(ValidatorRegister validatorRegister) {
+        this.validatorRegister = validatorRegister;
     }
 
     /**
      * Returns bean from Spring context..
      *
-      * @param t        Class of bean
-     *  @param name     Name of the bean
-     *
-     *  @param <T>      Generic param  to compiler type safe cast
-     *
-     *  @return bean from Spring context
+     * @param t    Class of bean
+     * @param name Name of the bean
+     * @param <T>  Generic param  to compiler type safe cast
+     * @return bean from Spring context
      */
     public <T> T getBean(Class<T> t, String name) {
-        return (T) context.getBean( name );
+        return (T) context.getBean(name);
     }
 
     public void generateCsvFile(String[] inputText) throws IOException, ParseException {
@@ -75,7 +80,7 @@ public final class App {
 
         // validationResults should not be null so we do not consider "".equals comparision,
         // because NullPointer would be a hint for developer that something is wrong.
-        if( validationResults.isEmpty() ) {
+        if (validationResults.isEmpty()) {
             urlReader.connect(inputString);
         } else {
             System.out.println(validationResults);
@@ -86,7 +91,7 @@ public final class App {
         String jsonText = null;
 
         try {
-            jsonText = textReader.getStringData( urlReader.getInputStream() );
+            jsonText = textReader.getStringData(urlReader.getInputStream());
         } catch (IOException e) {
             // if exception occurs you continue program with null jsonText!!!
             e.printStackTrace();
@@ -104,8 +109,8 @@ public final class App {
 
     private void print(String validationResults) {
          /* Passing an array of objects to getMessage method so it gets included to displayed message */
-        System.out.println( this.messageSource.getMessage("app.inputError",
-                new Object[] {validationResults}, "ERROR WITH DISPLAYING ERROR ;]", null) );
+        System.out.println(this.messageSource.getMessage("app.inputError",
+                new Object[]{validationResults}, "ERROR WITH DISPLAYING ERROR ;]", null));
     }
 
     private void save(List<LocationPojo> objectsList) {

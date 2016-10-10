@@ -22,10 +22,9 @@ public class LocationHibernateDaoImpl {
         this.sessionFactory = sessionFactory;
     }
 
-    public void save(LocationPojo location) {
+    public void save(LocationHibernate location) {
         Session session = sessionFactory.openSession();
-        try
-        {
+        try {
             session.beginTransaction();
             session.save(location);
             session.getTransaction().commit();
@@ -38,6 +37,7 @@ public class LocationHibernateDaoImpl {
     }
 
     public LocationPojo getLocation(int locationId) {
+        /* To be implemented later ;p */
         return null;
     }
 }

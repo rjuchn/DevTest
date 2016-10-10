@@ -25,7 +25,7 @@ public class StringContainsForbiddenCharacters implements Validatable {
         String pattern = "[^A-Za-z]";
         Pattern jPattern = Pattern.compile(pattern);
         Matcher matcher = jPattern.matcher(input);
-        if(matcher.find()){
+        if (matcher.find()) {
             return this.messageSource.getMessage("validator.forbiddenCharacter.error", null, "Can't get error message.", null).toString();
         } else {
             return "";

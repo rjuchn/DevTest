@@ -18,27 +18,27 @@ public class ValidatorRegister {
         this.validationQueue = validationQueue;
     }
 
-    public String showValidationList(){
+    public String showValidationList() {
         StringBuffer result = new StringBuffer();
-        for(Validatable validator : validationQueue){
+        for (Validatable validator : validationQueue) {
             result.append(validator.getClass().toString());
         }
         return result.toString();
     }
 
-    public void setToValidationQueue(Validatable validator){
+    public void setToValidationQueue(Validatable validator) {
         validationQueue.add(validator);
     }
 
-    public void removeFromValidationQueue(Validatable validator){
+    public void removeFromValidationQueue(Validatable validator) {
         validationQueue.remove(validator);
     }
 
-    public String checkValidations(String validatedString){
+    public String checkValidations(String validatedString) {
         StringBuffer validationResult = new StringBuffer();
-            for (Validatable validator : validationQueue) {
-                validationResult.append(validator.validate(validatedString));
-            }
+        for (Validatable validator : validationQueue) {
+            validationResult.append(validator.validate(validatedString));
+        }
 
         return validationResult.toString();
     }
